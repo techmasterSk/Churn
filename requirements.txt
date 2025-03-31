@@ -1,0 +1,8 @@
+pandas
+numpy
+joblib
+flask
+werkzeug
+pymongo
+google-generativeai
+gunicorn
