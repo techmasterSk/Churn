@@ -1,0 +1,815 @@
+/* --- General Styles & Variables --- */
+:root {
+    /* --- NEW Greenery Palette --- */
+    --primary-color: #27ae60; /* Main Green (Nephritis) */
+    --secondary-color: #a3b8a5; /* Muted Grey-Green/Neutral */
+    --success-color: #2ecc71; /* Emerald green (Kept) */
+    --danger-color: #e74c3c; /* Alizarin red (Kept) */
+    --light-color: #e8f8f5; /* Light Mint/Very Light Green */
+    --dark-color: #145a32; /* Dark Forest Green (for text/headings) */
+    --text-color: #3d503f; /* Dark Grey-Green Text */
+    --bg-color: #f7fcf8; /* Very Light Off-White/Green Tint Background */
+    --card-bg: #ffffff; /* White for cards for contrast */
+    --heading-font-color: #1e8449; /* Slightly lighter dark green for headings */
+    --hero-text-color: #ffffff; /* White text for Hero */
+    --footer-bg-color: var(--dark-color); /* Use dark green for footer */
+    --footer-text-color: #c8e6c9; /* Lighter, slightly greenish text for footer */
+    --footer-link-hover-color: #ffffff; /* White on hover for footer links */
+    --footer-heading-color: #ffffff; /* White headings in footer */
+
+    /* --- Other Variables (Mostly Kept) --- */
+    --shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    --border-radius: 10px;
+    --font-family: 'Poppins', sans-serif;
+    --heading-font: 'Playfair Display', serif;
+}
+
+/* ... (Keep all styles from the previous response from '*' down to just before the '.sector-card' style) ... */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color); /* UPDATED */
+    color: var(--text-color); /* UPDATED */
+    line-height: 1.7;
+    overflow-x: hidden;
+    position: relative; /* Needed for absolute positioning of snow */
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 25px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--heading-font);
+    color: var(--heading-font-color); /* UPDATED */
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+h2.section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    color: var(--heading-font-color); /* UPDATED */
+}
+h2.section-title span {
+    background: var(--bg-color); /* UPDATED */
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+}
+/* Creates the line through effect */
+h2.section-title::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #d5e0d7; /* UPDATED - Softer Greenish line */
+    z-index: 0;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: var(--text-color); /* UPDATED */
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color); /* UPDATED */
+    transition: color 0.3s ease;
+}
+a:hover {
+    color: var(--dark-color); /* UPDATED - Darker green on hover */
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Loading Screen: Rainy Forest (Keep as is) --- */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: url('https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1s ease-out 0.5s, visibility 1s ease-out 0.5s;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    animation: forestZoom 3.5s ease-out forwards;
+}
+#loading-screen::before { /* Dark overlay */
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+@keyframes forestZoom {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.2);
+    }
+}
+
+#loading-screen.loaded {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-out, visibility 1s ease-out;
+}
+
+.loading-content { position: relative; z-index: 3; text-align: center; }
+.loading-logo { font-family: var(--heading-font); font-size: 4rem; font-weight: 700; color: rgba(255, 255, 255, 0.9); margin-bottom: 0.5rem; animation: pulse 2s infinite ease-in-out; }
+#loading-screen h1 { font-size: 2.8rem; color: white; margin-bottom: 0.5rem; }
+#loading-screen p { font-size: 1.2rem; color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem; }
+.loading-dots span { display: inline-block; animation: blink 1.4s infinite both; font-size: 2rem; }
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink { 0%, 80%, 100% { opacity: 0; } 40% { opacity: 1; } }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+.rain-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 2; }
+.raindrop { position: absolute; bottom: 100%; width: 1px; height: 60px; background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.4)); animation: fall linear infinite; }
+@keyframes fall { to { transform: translateY(100vh); } }
+
+/* --- Snowfall Effect (Consider removing if it clashes with green theme) --- */
+#snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 998;
+    overflow: hidden;
+}
+.snowflake {
+    position: absolute;
+    top: -10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: snowfall linear infinite;
+}
+@keyframes snowfall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+}
+
+/* --- Navigation Bar --- */
+.navbar {
+    background: rgba(240, 255, 245, 0.95); /* UPDATED - Light green tint */
+    backdrop-filter: blur(5px);
+    color: var(--text-color); /* Uses updated variable */
+    padding: 0.8rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+}
+.navbar .container { display: flex; justify-content: space-between; align-items: center; }
+.navbar .logo { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); } /* Uses updated variable */
+.navbar .logo span { color: var(--secondary-color); font-weight: 300; } /* Uses updated variable */
+.nav-links { display: flex; gap: 1.5rem; align-items: center;}
+.nav-links li a { color: var(--text-color); font-weight: 600; padding: 0.5rem 0; position: relative; transition: color 0.3s ease; } /* Uses updated variable */
+.nav-links li a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -2px; left: 0; background-color: var(--primary-color); transition: width 0.3s ease; } /* Uses updated variable */
+.nav-links li a:hover { color: var(--primary-color); } /* Uses updated variable */
+.nav-links li a:hover::after { width: 100%; }
+.menu-icon { display: none; font-size: 1.8rem; cursor: pointer; color: var(--dark-color); } /* Uses updated variable */
+
+/* --- Hero Section --- */
+.hero {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background: none;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 100vh;
+}
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+    background-size: cover;
+    transform-origin: center center;
+    will-change: transform;
+    transition: transform 0.5s ease-out;
+}
+.hero.scrolling .hero-background {
+    animation: mountainZoom 1s ease-out forwards;
+}
+@keyframes mountainZoom {
+    from {
+        transform: scale(1) translateZ(0);
+    }
+    to {
+        transform: scale(1.1) translateZ(0);
+    }
+}
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(10, 40, 20, 0.5);
+    z-index: 1;
+}
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.hero h1 {
+    font-size: 4.2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--hero-text-color);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+}
+.hero p {
+    font-size: 1.4rem;
+    max-width: 700px;
+    margin: 0 auto 2rem auto;
+    color: var(--hero-text-color);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    font-weight: 400;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+.btn-large { 
+    padding: 1.2rem 3rem;
+    font-size: 1.2rem;
+    min-width: 200px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero h1 { 
+        font-size: 3rem;
+        padding: 0 1rem;
+    }
+    .hero p { 
+        font-size: 1.2rem;
+        padding: 0 1.5rem;
+    }
+}
+
+/* Thunder Flash Effect */
+.thunder-flash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(147, 112, 219, 0);
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+}
+.thunder-flash.active {
+    animation: thunderEffect 1s ease-out;
+}
+@keyframes thunderEffect {
+    0% { 
+        opacity: 0;
+        background: rgba(147, 112, 219, 0);
+    }
+    10% { 
+        opacity: 1;
+        background: rgba(147, 112, 219, 0.8);
+    }
+    20% { 
+        opacity: 0;
+        background: rgba(147, 112, 219, 0);
+    }
+    30% { 
+        opacity: 1;
+        background: rgba(147, 112, 219, 0.6);
+    }
+    40%, 100% { 
+        opacity: 0;
+        background: rgba(147, 112, 219, 0);
+    }
+}
+
+/* --- Main Content & Sections --- */
+.main-content { margin-top: 2rem; }
+.content-section {
+    background-color: var(--card-bg);
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: left;
+}
+
+/* --- Sector Cards --- */
+.sector-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    text-align: center;
+}
+
+.sector-card {
+    background: linear-gradient(145deg, #ffffff, var(--light-color));
+    padding: 2rem 1.5rem;
+    border-radius: var(--border-radius);
+    /* Keep the subtle base shadow for depth when not hovered */
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    border: 1px solid #e0ebe4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* Needed for absolute positioning of pseudo-element */
+    z-index: 1; /* Ensure card content is above the default pseudo-element state */
+    transition: transform 0.3s ease; /* Only transition transform here */
+    overflow: hidden; /* Hide gradient overflow until hover */
+}
+
+/* --- NEW: Green Flame Pseudo-element --- */
+.sector-card::before {
+    content: '';
+    position: absolute;
+    /* Make it slightly larger than the card */
+    inset: -10px; /* Control the spread of the glow */
+    background: radial-gradient(ellipse at center, rgba(46, 204, 113, 0.7) 0%, rgba(39, 174, 96, 0.4) 40%, rgba(20, 90, 50, 0) 75%); /* Green glow gradient */
+    filter: blur(20px); /* Intense blur for flame effect */
+    z-index: -1; /* Place behind the card content */
+    border-radius: calc(var(--border-radius) + 10px); /* Match card rounding + spread */
+    opacity: 0; /* Hidden by default */
+    transform: scale(0.9); /* Start slightly smaller */
+    transition: opacity 0.4s ease-out, filter 0.4s ease-out, transform 0.4s ease-out; /* Smooth transition */
+}
+
+
+.sector-card:hover {
+    transform: translateY(-10px) scale(1.02); /* Existing transform */
+    /* Remove the standard box-shadow on hover, let the pseudo-element handle it */
+    box-shadow: none;
+    overflow: visible; /* Allow the blurred pseudo-element to show */
+}
+
+/* --- NEW: Show Green Flame on Hover --- */
+.sector-card:hover::before {
+    opacity: 1; /* Show the glow */
+    filter: blur(25px); /* Optional: slightly increase blur on hover */
+    transform: scale(1.05); /* Slightly expand the glow */
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+    position: relative; /* Ensure icon stays above pseudo-element */
+    z-index: 2;
+}
+.sector-card:hover .card-icon { transform: scale(1.1); }
+
+.sector-card h3 {
+    margin-bottom: 0.5rem;
+    color: var(--heading-font-color);
+    font-size: 1.3rem;
+    position: relative; /* Ensure text stays above pseudo-element */
+    z-index: 2;
+}
+
+.sector-card p {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    position: relative; /* Ensure text stays above pseudo-element */
+    z-index: 2;
+}
+
+/* --- Prediction Form & Area --- */
+#prediction-area {
+    background-color: var(--bg-color); /* UPDATED - Consistent background */
+}
+#churn-form { margin-top: 2rem; }
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem 1.8rem;
+    margin-bottom: 2rem;
+}
+.form-group { display: flex; flex-direction: column; }
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-color); /* Uses updated variable */
+}
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #dce4ec; /* Kept neutral or change to light green border #c8e6c9 */
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: var(--font-family);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+}
+.form-group input::placeholder { color: #aaa; }
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color); /* Uses updated variable */
+    box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2); /* UPDATED - Green glow */
+}
+.form-actions { margin-top: 1.5rem; text-align: center; }
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.btn i { font-size: 1.1em; }
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--dark-color)); /* UPDATED - Green gradient */
+    color: white;
+    box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3); /* UPDATED - Green shadow */
+}
+.btn-primary:hover {
+    background: linear-gradient(45deg, var(--dark-color), #114a2a); /* UPDATED - Darker green gradient */
+    box-shadow: 0 6px 15px rgba(39, 174, 96, 0.4); /* UPDATED - Darker green shadow */
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color); /* Uses updated variable */
+    color: #333; /* Darker text for better contrast on grey-green */
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.btn-secondary:hover {
+    background-color: #8ca08d; /* UPDATED - Darker grey-green */
+     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+/* --- Result Box (Unified for Prediction and Upload Status) --- */
+.result-box {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    background-color: #f8fff9; /* UPDATED - Very light green tint */
+    border: 1px solid #d5e0d7; /* UPDATED */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+.result-box h3 {
+    color: var(--heading-font-color); /* Uses updated variable */
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #d5e0d7; /* UPDATED */
+    font-size: 1.4rem;
+}
+#prediction-text { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+.churn-positive { color: var(--danger-color); } /* Kept */
+.churn-negative { color: var(--success-color); } /* Kept */
+#probability-text { font-size: 1.1rem; color: #555; margin-bottom: 1.5rem; }
+
+/* Suggestions Area */
+#suggestions-area { margin-top: 1.5rem; text-align: left; padding-top: 1rem; border-top: 1px dashed #b0c9b5; /* UPDATED */}
+#suggestions-area h4 { color: var(--primary-color); margin-bottom: 0.7rem; font-size: 1.1rem;} /* Uses updated variable */
+#suggestions-list { list-style: none; padding-left: 0; }
+#suggestions-list li { margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative; color: var(--text-color); /* Uses updated variable */}
+#suggestions-list li::before {
+    content: '\f00c'; /* Font Awesome check icon */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    color: var(--success-color); /* Uses updated variable */
+}
+
+/* Upload Status / Analysis Result */
+#upload-status h3 { /* Reuse result box h3 style */
+    color: var(--heading-font-color); /* Uses updated variable */
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #d5e0d7; /* UPDATED */
+    font-size: 1.4rem;
+}
+#analysis-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    text-align: left;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    font-family: monospace;
+    font-size: 0.9rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* --- Upload Section --- */
+#upload-section { background-color: var(--bg-color); /* UPDATED - Consistent background */ }
+#upload-section p { text-align: center; margin-bottom: 2rem; color: var(--text-color); /* Uses updated variable */ }
+#upload-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background-color: #f8fff9; /* UPDATED - Very light green tint */
+    border-radius: var(--border-radius);
+    border: 1px dashed #b0c9b5; /* UPDATED */
+}
+.file-label { margin: 0; }
+#csv-file { display: none; }
+#file-name-display { font-style: italic; color: var(--text-color); flex-grow: 1; text-align: center; } /* Uses updated variable */
+
+
+/* --- Footer --- */
+footer {
+    background-color: var(--footer-bg-color); /* UPDATED */
+    color: var(--footer-text-color);       /* UPDATED Default Text Color */
+    padding: 3rem 0 1rem 0; /* More top padding, less bottom */
+    margin-top: 4rem;
+    font-size: 0.9rem; /* Slightly smaller base font */
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: space-between; /* Distribute space */
+    gap: 2rem; /* Space between columns */
+    margin-bottom: 2rem; /* Space before bottom bar */
+}
+
+.footer-section {
+    flex: 1; /* Allow sections to grow */
+    min-width: 200px; /* Minimum width before wrapping */
+    padding: 0 1rem; /* Padding within sections */
+}
+
+.footer-section h4 {
+    font-family: var(--font-family); /* Use Poppins for footer headings */
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--footer-heading-color); /* UPDATED */
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+/* Underline effect for footer headings */
+.footer-section h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--primary-color); /* Use main green */
+}
+
+.footer-section.about .footer-logo {
+    font-family: var(--heading-font); /* Playfair for logo */
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--footer-heading-color);
+    margin-bottom: 0.8rem;
+}
+.footer-section.about .footer-logo span {
+    color: var(--secondary-color);
+    font-weight: 300;
+}
+
+.footer-section.about .copyright-text {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: var(--footer-text-color); /* Ensure copyright uses footer text color */
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.6rem;
+}
+
+.footer-section ul li a,
+.footer-section.contact p a {
+    color: var(--footer-text-color); /* UPDATED Link Color */
+    text-decoration: none;
+    transition: color 0.3s ease, padding-left 0.3s ease;
+    position: relative;
+}
+
+.footer-section ul li a:hover,
+.footer-section.contact p a:hover {
+    color: var(--footer-link-hover-color); /* UPDATED Hover Color */
+    padding-left: 5px; /* Slight indent on hover */
+}
+
+/* Optional: Subtle icon before list links */
+.footer-section ul li a::before {
+    content: '\f105'; /* Font Awesome chevron right */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-right: 8px;
+    font-size: 0.8em;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+.footer-section ul li a:hover::before {
+    opacity: 1;
+}
+
+
+.footer-section.contact p {
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--footer-text-color); /* Ensure contact text uses footer text color */
+}
+.footer-section.contact p i {
+    color: var(--primary-color); /* Green icons */
+    width: 16px; /* Align icons */
+    text-align: center;
+}
+
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
+    font-size: 0.85rem;
+    color: rgba(200, 230, 201, 0.7); /* Slightly dimmed bottom text */
+}
+.footer-bottom i {
+    color: var(--danger-color); /* Red heart */
+    margin: 0 3px;
+}
+
+
+/* --- Responsiveness --- */
+@media (max-width: 992px) {
+    .container { max-width: 960px; }
+    .hero h1 { font-size: 2.8rem; }
+    .hero p { font-size: 1.1rem; }
+}
+
+@media (max-width: 768px) {
+    .navbar .container { flex-direction: row; }
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: rgba(240, 255, 245, 0.98);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        flex-direction: column;
+        padding: 1rem 0;
+        gap: 0;
+    }
+    .nav-links.active { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-links li a { padding: 1rem; display: block; text-align: center; border-bottom: 1px solid #d5e0d7; }
+    .nav-links li:last-child a { border-bottom: none; }
+    .nav-links li a::after { display: none; }
+    .menu-icon { display: block; }
+
+    .hero { padding: 5rem 0 4rem 0; }
+    .hero h1 { font-size: 2.5rem; }
+    .hero p { font-size: 1.05rem; }
+    .btn-large { font-size: 1rem; padding: 0.8rem 1.8rem; }
+
+    .sector-cards { grid-template-columns: 1fr; } /* Already 1fr */
+    .form-grid { grid-template-columns: 1fr; }
+
+    #upload-form { flex-direction: column; }
+    .file-label, #upload-form button { width: 100%; text-align: center; margin: 0.5rem 0;}
+    #file-name-display { margin-top: 0.5rem; }
+
+    /* Footer adjustments for smaller screens */
+    .footer-content {
+        flex-direction: column; /* Stack columns */
+        text-align: center; /* Center text in stacked columns */
+    }
+    .footer-section {
+        min-width: 100%; /* Full width */
+        margin-bottom: 1.5rem; /* Space between stacked sections */
+        padding: 0;
+    }
+     .footer-section h4::after { /* Center the underline */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .footer-section.contact p {
+        justify-content: center; /* Center contact items */
+    }
+
+}
+
+@media (max-width: 576px) {
+    h2.section-title { font-size: 1.8rem; }
+    .content-section { padding: 1.5rem; }
+    .form-grid { gap: 1rem; }
+    .btn { padding: 0.7rem 1.5rem; font-size: 0.9rem;}
+    .hero { padding: 4rem 0 3rem 0; }
+    .hero h1 { font-size: 2.2rem; }
+    .hero p { font-size: 1rem; }
+}
+
+/* Keep small spinner and loading indicator styles */
+.loading-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    font-size: 1.1rem;
+    color: var(--primary-color); /* Use primary green */
+}
+
+.small-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(39, 174, 96, 0.3); /* Light green */
+    border-top-color: var(--primary-color); /* Primary green */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

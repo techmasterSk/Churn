@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fidélité - Customer Churn Intelligence</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        html {
+            scroll-behavior: smooth; /* Add smooth scrolling */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="rain-container">
+            <!-- Raindrops will be added here by JS -->
+        </div>
+        <div class="loading-content">
+            <div class="loading-logo">F</div>
+            <h1>Fidélité</h1>
+            <p>Cultivating Customer Loyalty...</p>
+            <div class="loading-dots">
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thunder Flash -->
+    <div class="thunder-flash"></div>
+
+    <!-- Snow Container (Optional) -->
+    <div id="snow-container"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">Fidélité<span>.ai</span></a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#about-section">About</a></li>
+                <li><a href="#sector-selection">Predict Churn</a></li>
+                <li><a href="#upload-section">Custom Analysis</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+             <div class="menu-icon" id="menu-icon">
+                 <i class="fas fa-bars"></i>
+             </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-background"></div>
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1>Predict. Prevent. Prosper.</h1>
+            <p>Leverage AI to understand customer churn and implement targeted retention strategies across Banking, SaaS, and Telecom sectors, or analyze your custom data.</p>
+            <a href="#about-section" class="btn btn-primary btn-large">Learn More</a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container main-content">
+        <!-- About Section -->
+        <section id="about-section" class="content-section">
+            <h2 class="section-title"><span>About Fidélité.ai</span></h2>
+            <div class="about-content">
+                <p>Welcome to Fidélité.ai, your partner in understanding and preventing customer churn. We leverage the power of artificial intelligence to help businesses across various sectors, including Banking, SaaS, and Telecom, identify potential churn risks and implement effective retention strategies.</p>
+                <p>Our platform offers two primary functionalities:</p>
+                <ul>
+                    <li><strong>Predict Churn:</strong> Choose your sector and input customer details to receive a churn prediction and probability score.</li>
+                    <li><strong>Custom Analysis:</strong> Upload your own CSV data for a comprehensive AI-driven analysis of potential churn drivers and actionable preventive measures.</li>
+                </ul>
+                <p>At Fidélité.ai, we believe that understanding customer behavior is the key to building lasting loyalty. Let us help you predict, prevent, and prosper.</p>
+            </div>
+            <a href="#sector-selection" class="btn btn-primary">Get Started</a>
+        </section>
+
+        <!-- Sector Selection -->
+        <section id="sector-selection" class="content-section">
+            <h2 class="section-title"><span>1. Choose Your Sector</span></h2>
+            <div class="sector-cards">
+                <div class="sector-card" data-sector="banking">
+                     <div class="card-icon"><i class="fas fa-university"></i></div>
+                    <h3>Banking</h3>
+                    <p>Analyze financial customer behavior.</p>
+                </div>
+                <div class="sector-card" data-sector="saas">
+                    <div class="card-icon"><i class="fas fa-cloud"></i></div>
+                    <h3>SaaS</h3>
+                    <p>Understand software subscription churn.</p>
+                </div>
+                <div class="sector-card" data-sector="telecom">
+                     <div class="card-icon"><i class="fas fa-wifi"></i></div>
+                    <h3>Telecom</h3>
+                    <p>Predict telecom subscriber loyalty.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prediction Form Area (Dynamically Populated) -->
+        <section id="prediction-area" class="content-section hidden">
+            <h2 id="form-title" class="section-title"><span>Enter Customer Details</span></h2>
+            <form id="churn-form">
+                <div id="form-fields" class="form-grid">
+                    <!-- Input fields will be injected here by JS -->
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-magic"></i> Predict Churn</button>
+                    <button type="button" class="btn btn-secondary" id="back-to-sectors"><i class="fas fa-arrow-left"></i> Change Sector</button>
+                </div>
+            </form>
+            <div id="prediction-loading" class="loading-indicator hidden">
+                <div class="small-spinner"></div> Analyzing Data...
+            </div>
+            <div id="prediction-result" class="result-box hidden">
+                <!-- Results injected here -->
+            </div>
+        </section>
+
+        <!-- Custom Data Upload Section -->
+        <section id="upload-section" class="content-section hidden">
+             <h2 class="section-title"><span>2. Analyze Custom Data</span></h2>
+             <p>Upload your customer data (CSV format). Our AI will provide insights on potential churn drivers and suggest preventive actions based on the data structure.</p>
+             <form id="upload-form">
+                 <label for="csv-file" class="file-label btn btn-secondary">
+                     <i class="fas fa-upload"></i> Choose CSV File
+                     <input type="file" id="csv-file" name="file" accept=".csv" required>
+                 </label>
+                 <span id="file-name-display">No file selected</span>
+                 <button type="submit" class="btn btn-primary"><i class="fas fa-cogs"></i> Upload & Analyze</button>
+                 <button type="button" class="btn btn-secondary" id="back-to-sectors-from-upload"><i class="fas fa-arrow-left"></i> Back to Sectors</button>
+             </form>
+              <div id="upload-loading" class="loading-indicator hidden">
+                <div class="small-spinner"></div> Processing File...
+            </div>
+             <div id="upload-status" class="result-box hidden">
+                 <!-- Upload status and analysis results injected here -->
+             </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <!-- Column 1: Copyright -->
+            <div class="footer-section about">
+                 <h3 class="footer-logo">Fidélité<span>.ai</span></h3>
+                 <p class="copyright-text">
+                     © <span id="current-year"></span> Sumit Kumar Das<br>
+                     Empowering Customer Retention.
+                 </p>
+                 <!-- Optional: Add social links here -->
+                 <!-- <div class="social-links">
+                     <a href="#"><i class="fab fa-facebook-f"></i></a>
+                     <a href="#"><i class="fab fa-twitter"></i></a>
+                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                 </div> -->
+            </div>
+
+            <!-- Column 2: Quick Links -->
+            <div class="footer-section links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#about-section">About Us</a></li>
+                    <li><a href="#sector-selection">Predict Churn</a></li>
+                    <li><a href="#upload-section">Custom Analysis</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Legal -->
+             <div class="footer-section links">
+                 <h4>Legal</h4>
+                 <ul>
+                     <li><a href="#">Privacy Policy</a></li>
+                     <li><a href="#">Terms of Service</a></li>
+                     <li><a href="#">Cookie Policy</a></li>
+                 </ul>
+            </div>
+
+            <!-- Column 4: Contact -->
+            <div class="footer-section contact">
+                <h4>Contact</h4>
+                 <p><i class="fas fa-envelope"></i> <a href="mailto:info@fidelite.ai">info@fidelite.ai</a></p>
+                 <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                 <p><i class="fas fa-map-marker-alt"></i> 123 AI Street, Tech City</p>
+            </div>
+
+        </div>
+         <div class="footer-bottom">
+             Designed with <i class="fas fa-heart"></i> by Sumit Kumar Das
+         </div>
+    </footer>
+
+    <script>
+        // Scroll to the top of the page when the page loads
+        window.onload = function() {
+            window.scrollTo(0, 0);
+        };
+    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
